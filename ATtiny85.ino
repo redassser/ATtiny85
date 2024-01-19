@@ -1,6 +1,6 @@
-#define PIN 3
-#define CLK 10
-#define DIO 11
+#define PIN 0
+#define CLK 1
+#define DIO 2
 
 uint16_t pulse;
 uint8_t bpm ;
@@ -60,13 +60,10 @@ void setup() {
   pinMode(PIN, INPUT);
   pinMode(CLK,OUTPUT);
   pinMode(DIO,OUTPUT);
+
   //Pulse setup
-  Serial.begin(115200);
   Time = millis();
   //Display setup
-  pinMode(DIO, OUTPUT);
-  pinMode(CLK, OUTPUT);
-
   start();
   writeValue(0x8f);
   stop();
@@ -125,7 +122,6 @@ void loop() {
     if (oldestBpm > 8) oldestBpm = 0;
 
     // Printing
-    Serial.println(bpm);
   }
   else if (pulse < 2000 && high) high = false;
 
