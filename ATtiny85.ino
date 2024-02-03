@@ -1,6 +1,6 @@
-#define PIN 0
-#define CLK 1
-#define DIO 2
+#define PIN A3
+#define CLK 2
+#define DIO 1
 
 uint16_t pulse;
 uint8_t bpm ;
@@ -67,11 +67,22 @@ void setup() {
   start();
   writeValue(0x8f);
   stop();
+  
+  start();
+  writeValue(0x40);
+  stop();
+  start();
+  writeValue(0xc0);
+  writeValue(1);
+  writeValue(2);
+  writeValue(3);
+  writeValue(4);
+  stop();
 }
 void loop() {
   pulse = analogRead(PIN); // Get the voltage
 
-  if (pulse > 2700 && !high) { // If voltage is high enough, a pulse is read
+  if (pulse > 900 && !high) { // If voltage is high enough, a pulse is read
     //Get time since last pulse and bpm
     Time = millis() - Time; 
     bpm = 60000 / Time; 
@@ -123,7 +134,7 @@ void loop() {
 
     // Printing
   }
-  else if (pulse < 2000 && high) high = false;
+  else if (pulse < 500 && high) high = false;
 
 
   start();
@@ -131,7 +142,7 @@ void loop() {
   stop();
   start();
   writeValue(0xc0);
-  writeValue(0);
+  writeValue(1);
   writeValue(num[1]);
   writeValue(num[2]);
   writeValue(num[3]);
